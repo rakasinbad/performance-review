@@ -22,7 +22,7 @@ export function UsersProvider() {
   const [name, setName] = useState("");
   const [skipped, setSkipped] = useState(new Set<number>());
 
-  const isStepOptional = (step: number) => step === 1; // make step 2 optional
+  const isStepOptional = (step: number) => false; // make step 2 optional
   const isStepSkipped = (step: number) => skipped.has(step);
 
   const handleNext = () => {
@@ -71,6 +71,7 @@ export function UsersProvider() {
         name={name}
         setName={setName}
       />
+      {/* <Users /> */}
       <DevTool control={methods.control} />
     </FormProvider>
   );

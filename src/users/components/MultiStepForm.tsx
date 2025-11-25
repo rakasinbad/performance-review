@@ -6,12 +6,9 @@ import {
   StepLabel,
   Typography,
   Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Paper,
 } from "@mui/material";
+import Step1 from "./Form/Step1";
 
 const MultiStepForm = ({
   steps,
@@ -42,7 +39,7 @@ const MultiStepForm = ({
         }}
       >
         <Typography variant="h4" gutterBottom textAlign="center">
-          360 Performance Review
+          Penilaian Karyawan
         </Typography>
 
         <Stepper
@@ -93,39 +90,7 @@ const MultiStepForm = ({
           </Box>
         ) : (
           <>
-            {activeStep === 0 && (
-              <Box>
-                <FormControl fullWidth sx={{ mb: 3 }}>
-                  <InputLabel id="tujuan-label">Tujuan Penilaian</InputLabel>
-                  <Select
-                    labelId="tujuan-label"
-                    value={tujuan}
-                    label="Tujuan Penilaian"
-                    onChange={(e) => setTujuan(e.target.value)}
-                    required
-                  >
-                    <MenuItem value="self">Self Review</MenuItem>
-                    <MenuItem value="manager">Manager Review</MenuItem>
-                    <MenuItem value="peer">Peer Review</MenuItem>
-                  </Select>
-                </FormControl>
-
-                <FormControl fullWidth sx={{ mb: 4 }}>
-                  <InputLabel id="name-label">Select Name</InputLabel>
-                  <Select
-                    labelId="name-label"
-                    value={name}
-                    label="Select Name"
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                  >
-                    <MenuItem value="Alice">Alice</MenuItem>
-                    <MenuItem value="Bob">Bob</MenuItem>
-                    <MenuItem value="Charlie">Charlie</MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-            )}
+            {activeStep === 0 && <Step1 />}
 
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
