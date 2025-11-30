@@ -8,7 +8,12 @@ import { Users } from "./Users";
 import { useState } from "react";
 import MultiStepForm from "./MultiStepForm";
 
-const steps = ["Step 1: Identitas", "Step 2: Penilaian", "Step 3: Penutup"];
+const steps = [
+  "Step 1: Identitas",
+  "Step 2: Pertanyaan Umum",
+  "Step 3: Pertanyaan Spesifik",
+  "Step 4: Penutup",
+];
 
 export function UsersProvider() {
   const methods = useForm<Schema>({

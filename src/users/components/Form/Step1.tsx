@@ -75,7 +75,6 @@ const Step1 = ({}) => {
     setValue("uiState.deptShrink", !!nama);
     if (nama) {
       const selectedUser = employees?.find((emp: any) => emp?.id === nama);
-      console.log("sel use", selectedUser);
       setValue("step1.dept", selectedUser?.data?.dept);
     }
   }, [nama]);
