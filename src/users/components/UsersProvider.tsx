@@ -8,7 +8,7 @@ import { Users } from "./Users";
 import { useState } from "react";
 import MultiStepForm from "./MultiStepForm";
 
-const steps = ["Step 1: Basic Info", "Step 2: Feedback", "Step 3: Summary"];
+const steps = ["Step 1: Identitas", "Step 2: Penilaian", "Step 3: Penutup"];
 
 export function UsersProvider() {
   const methods = useForm<Schema>({

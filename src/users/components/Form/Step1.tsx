@@ -1,10 +1,10 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { RHFAutocompleteSingle } from "../../../components/RHFAutocompleteSingle";
 import { SchemaReview } from "../../types/reviewSchema";
 import { EMPLOYEES_GQL } from "../../../gql/employees.gql";
 import { useQuery } from "@apollo/client";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { RHFTextField } from "../../../components/RHFTextField";
 
 const tujuanPenilaianOptions = [
@@ -27,7 +27,21 @@ const tujuanPenilaianOptions = [
 ];
 
 const Step1 = ({}) => {
-  const { watch, setValue } = useFormContext();
+  const { control, watch, setValue, getValues } = useFormContext();
+
+  const nama = useWatch({
+    control,
+    name: "step1.nama",
+  });
+
+  const namaTarget = useWatch({
+    control,
+    name: "step1.namaTarget",
+  });
+
+  const uiState = useWatch({
+    name: "uiState",
+  });
 
   const {
     data: responseEmployees,
@@ -39,6 +53,8 @@ const Step1 = ({}) => {
         limit: 9999,
         keyword: "",
         offset: 0,
+        sortBy: "nama",
+        sortType: "asc",
       },
       fetchPolicy: "no-cache",
     },
@@ -55,11 +71,31 @@ const Step1 = ({}) => {
     return [];
   }, [responseEmployees]);
 
+  useEffect(() => {
+    setValue("uiState.deptShrink", !!nama);
+    if (nama) {
+      const selectedUser = employees?.find((emp: any) => emp?.id === nama);
+      console.log("sel use", selectedUser);
+      setValue("step1.dept", selectedUser?.data?.dept);
+    }
+  }, [nama]);
+
+  useEffect(() => {
+    setValue("uiState.deptTargetShrink", !!namaTarget);
+    if (namaTarget) {
+      const selectedUser = employees?.find(
+        (emp: any) => emp?.id === namaTarget
+      );
+      setValue("step1.deptTarget", selectedUser?.data?.dept);
+    }
+  }, [namaTarget]);
+  // console.log('watch("namaTarget")', namaTarget);
+
   return (
     <Box>
       <FormControl fullWidth sx={{ mb: 3 }}>
         <RHFAutocompleteSingle<SchemaReview>
-          name="goals"
+          name="step1.goals"
           label="Tujuan Penilaian"
           options={tujuanPenilaianOptions}
         />
@@ -67,24 +103,27 @@ const Step1 = ({}) => {
 
       <FormControl fullWidth sx={{ mb: 4 }}>
         <RHFAutocompleteSingle<SchemaReview>
-          name="nama"
+          name="step1.nama"
           label="Nama"
           options={employees}
           loading={loadingEmployees}
-          customOnChange={(value) => {
-            console.log("labe value", value);
-            setValue("dept", value ? value.label.split(" - ")[0] : "");
-          }}
         />
       </FormControl>
 
       <FormControl fullWidth sx={{ mb: 4 }}>
-        <RHFTextField<SchemaReview> name="dept" label="Department" disabled />
+        <RHFTextField<SchemaReview>
+          name="step1.dept"
+          label="Department"
+          InputLabelProps={{
+            shrink: uiState?.deptShrink,
+          }}
+          disabled
+        />
       </FormControl>
 
       <FormControl fullWidth sx={{ mb: 4 }}>
         <RHFAutocompleteSingle<SchemaReview>
-          name="namaTarget"
+          name="step1.namaTarget"
           label="Nama yang akan dinilai"
           options={employees}
           loading={loadingEmployees}
@@ -93,9 +132,12 @@ const Step1 = ({}) => {
 
       <FormControl fullWidth sx={{ mb: 4 }}>
         <RHFTextField<SchemaReview>
-          name="deptTarget"
+          name="step1.deptTarget"
           label="Department"
           disabled
+          InputLabelProps={{
+            shrink: uiState?.deptTargetShrink,
+          }}
         />
       </FormControl>
     </Box>

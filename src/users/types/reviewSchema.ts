@@ -1,12 +1,19 @@
 import { z } from "zod";
+import { boolean } from "zod/v4";
 
 export const schemaReview = z.intersection(
   z.object({
-    goals: z.string().min(1, "Tujuan Penilaian is required"),
-    nama: z.string().min(1, "Nama is required"),
-    dept: z.string().min(1, "Dept is required"),
-    namaTarget: z.string().min(1, "Nama Target is required"),
-    deptTarget: z.string().min(1, "Dept Target is required"),
+    step1: z.object({
+      goals: z.string().min(1, "Tujuan Penilaian is required"),
+      nama: z.string().min(1, "Nama is required"),
+      dept: z.string().min(1, "Dept is required"),
+      namaTarget: z.string().min(1, "Nama Target is required"),
+      deptTarget: z.string().min(1, "Dept Target is required"),
+    }),
+    uiState: z.object({
+      deptShrink: z.boolean(),
+      deptTargetShrink: z.boolean(),
+    }),
   }),
 
   z.discriminatedUnion("variant", [
@@ -19,9 +26,16 @@ export type SchemaReview = z.infer<typeof schemaReview>;
 
 export const defaultValuesReview: SchemaReview = {
   variant: "create",
-  goals: "",
-  nama: "",
-  dept: "",
-  namaTarget: "",
-  deptTarget: "",
+  step1: {
+    goals: "",
+    nama: "",
+    dept: "",
+    namaTarget: "",
+    deptTarget: "",
+  },
+
+  uiState: {
+    deptShrink: false,
+    deptTargetShrink: false,
+  },
 };

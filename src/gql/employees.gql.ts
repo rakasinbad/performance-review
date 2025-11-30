@@ -7,6 +7,7 @@ export const EMPLOYEES_GQL = gql`
         id
         nik
         nama
+        dept
       }
       meta {
         total

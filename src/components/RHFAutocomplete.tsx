@@ -23,7 +23,6 @@ export function RHFAutocomplete<T extends FieldValues>({
       control={control}
       name={name}
       render={({ field: { value, onChange, ref }, fieldState: { error } }) => {
-        console.log("value", value);
         return (
           <Autocomplete
             options={options || []}

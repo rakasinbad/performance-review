@@ -18,6 +18,7 @@ import {
 import { APOLLO_SERVER } from "./constant/apollo.ts";
 
 import { setContext } from "@apollo/client/link/context";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 
 const httpLink = new HttpLink({
   uri: APOLLO_SERVER,
@@ -52,11 +53,22 @@ const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+export const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#764E3F", // blue
+    },
+  },
+});
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ApolloProvider client={apolloClient}>
-        <App />
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <App />
+        </ThemeProvider>
       </ApolloProvider>
     </QueryClientProvider>
   </React.StrictMode>
