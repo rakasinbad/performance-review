@@ -27,7 +27,8 @@ const tujuanPenilaianOptions = [
 ];
 
 const Step1 = ({}) => {
-  const { control, watch, setValue, getValues } = useFormContext();
+  const { control, watch, setValue, getValues, trigger, formState } =
+    useFormContext();
 
   const nama = useWatch({
     control,
@@ -88,7 +89,6 @@ const Step1 = ({}) => {
       setValue("step1.deptTarget", selectedUser?.data?.dept);
     }
   }, [namaTarget]);
-  // console.log('watch("namaTarget")', namaTarget);
 
   return (
     <Box>

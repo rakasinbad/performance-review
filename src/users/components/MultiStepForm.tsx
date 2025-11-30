@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import Step1 from "./Form/Step1";
 import logo from "../../../public/logo-dapcok-new.png";
+import { useFormContext, useWatch } from "react-hook-form";
 
 const MultiStepForm = ({
   steps,
@@ -25,6 +26,12 @@ const MultiStepForm = ({
   name,
   setName,
 }: any) => {
+  const { control } = useFormContext();
+  const step1 = useWatch({
+    control,
+    name: "step1",
+  });
+  console.log("step1", step1);
   return (
     <Box
       sx={{

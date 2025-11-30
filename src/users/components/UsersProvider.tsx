@@ -7,6 +7,7 @@ import { defaultValues, Schema, schema } from "../types/schema";
 import { Users } from "./Users";
 import { useState } from "react";
 import MultiStepForm from "./MultiStepForm";
+import { SchemaReview } from "../types/reviewSchema";
 
 const steps = [
   "Step 1: Identitas",
@@ -16,8 +17,8 @@ const steps = [
 ];
 
 export function UsersProvider() {
-  const methods = useForm<Schema>({
-    mode: "all",
+  const methods = useForm<SchemaReview>({
+    mode: "onChange",
     resolver: zodResolver(schema),
     defaultValues,
   });
