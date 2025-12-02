@@ -8,6 +8,7 @@ export const EMPLOYEES_GQL = gql`
         nik
         nama
         dept
+        subdept
       }
       meta {
         total

@@ -76,7 +76,12 @@ const Step1 = ({}) => {
     setValue("uiState.deptShrink", !!nama);
     if (nama) {
       const selectedUser = employees?.find((emp: any) => emp?.id === nama);
-      setValue("step1.dept", selectedUser?.data?.dept);
+
+      let dept = `${selectedUser?.data?.dept}`;
+      if (selectedUser?.data?.subdept && selectedUser?.data?.subdept !== "") {
+        dept += ` - ${selectedUser?.data?.subdept}`;
+      }
+      setValue("step1.dept", dept);
     }
   }, [nama]);
 
@@ -86,7 +91,11 @@ const Step1 = ({}) => {
       const selectedUser = employees?.find(
         (emp: any) => emp?.id === namaTarget
       );
-      setValue("step1.deptTarget", selectedUser?.data?.dept);
+      let dept = `${selectedUser?.data?.dept}`;
+      if (selectedUser?.data?.subdept && selectedUser?.data?.subdept !== "") {
+        dept += ` - ${selectedUser?.data?.subdept}`;
+      }
+      setValue("step1.deptTarget", dept);
     }
   }, [namaTarget]);
 
