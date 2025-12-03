@@ -1,5 +1,5 @@
-import { UsersProvider } from "./pages/components/UsersProvider";
+import { ContentProvider } from "./pages/components/ContentProvider";
 
 export function App() {
-  return <UsersProvider />;
+  return <ContentProvider />;
 }

@@ -16,6 +16,7 @@ type Props<T extends FieldValues> = {
   loading?: boolean;
   inputCustomProps?: AutocompleteSingleProps;
   customOnChange?: (value: Option | null) => void;
+  [key: string]: any;
 };
 
 export function RHFAutocompleteSingle<T extends FieldValues>({
@@ -24,6 +25,8 @@ export function RHFAutocompleteSingle<T extends FieldValues>({
   label,
   loading = false,
   customOnChange,
+  required,
+  disabled,
   ...inputCustomProps
 }: Props<T>) {
   const { control } = useFormContext();
@@ -51,27 +54,32 @@ export function RHFAutocompleteSingle<T extends FieldValues>({
                 {option.label}
               </li>
             )}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label={label}
-                inputRef={ref}
-                error={!!error}
-                helperText={error?.message}
-                fullWidth
-                InputProps={{
-                  ...params.InputProps,
-                  endAdornment: (
-                    <>
-                      {loading ? (
-                        <CircularProgress size={20} sx={{ mr: 2 }} />
-                      ) : null}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
-                }}
-              />
-            )}
+            disabled={disabled}
+            renderInput={(params) => {
+              return (
+                <TextField
+                  {...params}
+                  disabled={disabled}
+                  required={required}
+                  label={label}
+                  inputRef={ref}
+                  error={!!error}
+                  helperText={error?.message}
+                  fullWidth
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <>
+                        {loading ? (
+                          <CircularProgress size={20} sx={{ mr: 2 }} />
+                        ) : null}
+                        {params.InputProps.endAdornment}
+                      </>
+                    ),
+                  }}
+                />
+              );
+            }}
           />
         );
       }}

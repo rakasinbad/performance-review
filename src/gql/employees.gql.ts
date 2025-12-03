@@ -9,6 +9,10 @@ export const EMPLOYEES_GQL = gql`
         nama
         dept
         subdept
+        jabatan
+        jabatanDetail {
+          id
+        }
       }
       meta {
         total

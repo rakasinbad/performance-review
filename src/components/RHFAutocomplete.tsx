@@ -10,6 +10,7 @@ type Props<T extends FieldValues> = {
   name: Path<T>;
   options?: Option[];
   label: string;
+  [key: string]: any;
 };
 
 export function RHFAutocomplete<T extends FieldValues>({

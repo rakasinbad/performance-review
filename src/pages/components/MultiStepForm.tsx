@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import {
   Box,
   Stepper,
@@ -11,6 +11,7 @@ import {
 import Step1 from "./Form/Step1";
 import logo from "../../../public/logo-dapcok-new.png";
 import { useFormContext, useWatch } from "react-hook-form";
+import { posisiPenilaiCode } from "./Form/constant";
 
 const MultiStepForm = ({
   steps,
@@ -21,17 +22,27 @@ const MultiStepForm = ({
   isStepOptional,
   isStepSkipped,
   handleSkip,
-  tujuan,
-  setTujuan,
-  name,
-  setName,
 }: any) => {
   const { control } = useFormContext();
   const step1 = useWatch({
     control,
     name: "step1",
   });
-  console.log("step1", step1);
+
+  const nextDisabled = useMemo(() => {
+    switch (activeStep) {
+      case 0:
+        if (step1?.position && step1?.position !== posisiPenilaiCode.SELF) {
+          return !step1?.goals || !step1?.nama || !step1?.namaTarget;
+        } else {
+          return !step1?.goals || !step1?.nama || !step1?.position;
+        }
+
+      default:
+        return false;
+    }
+  }, [step1]);
+
   return (
     <Box
       sx={{
@@ -83,35 +94,6 @@ const MultiStepForm = ({
           >
             Penilaian Karyawan
           </Typography>
-
-          <Typography variant="body1" paragraph>
-            Sebagai bagian dari proses evaluasi karyawan, perusahaan melakukan
-            penilaian kinerja dan sikap kerja untuk keperluan
-            <b>
-              {" "}
-              Perpanjangan Kontrak, Promosi, Demosi, maupun Pengangkatan
-              karyawan tetap.
-            </b>
-          </Typography>
-
-          <Typography variant="body1" paragraph>
-            Melalui formulir ini, Bapak/Ibu dimohon memberikan penilaian secara
-            objektif dan berdasarkan pengamatan selama periode kerja.
-          </Typography>
-
-          <Typography variant="body1" paragraph>
-            Hasil penilaian akan menjadi pertimbangan manajemen dalam
-            pengambilan keputusan terkait karyawan.
-          </Typography>
-
-          <Typography variant="body1" paragraph>
-            Terima kasih atas perhatian dan kerja samanya.
-          </Typography>
-
-          <Typography variant="body1" fontWeight={600}>
-            Tim HRD
-          </Typography>
-
           <Stepper
             activeStep={activeStep}
             alternativeLabel
@@ -182,6 +164,7 @@ const MultiStepForm = ({
                   variant="contained"
                   color="primary"
                   onClick={handleNext}
+                  disabled={nextDisabled}
                 >
                   {activeStep === steps.length - 1 ? "Finish" : "Next"}
                 </Button>

@@ -1,47 +1,48 @@
-import { Controller, FieldValues, Path, useFormContext } from 'react-hook-form';
+import { Controller, FieldValues, Path, useFormContext } from "react-hook-form";
 
 import {
-	FormControl,
-	FormControlLabel,
-	FormLabel,
-	Radio,
-	RadioGroup,
-} from '@mui/material';
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 
-import { Option } from '../types/option';
+import { Option } from "../types/option";
 
 type Props<T extends FieldValues> = {
-	name: Path<T>;
-	options?: Option[];
-	label: string;
+  name: Path<T>;
+  options?: Option[];
+  label: string;
+  [key: string]: any;
 };
 
 export function RHFRadioGroup<T extends FieldValues>({
-	name,
-	options,
-	label,
+  name,
+  options,
+  label,
 }: Props<T>) {
-	const { control } = useFormContext<T>();
+  const { control } = useFormContext<T>();
 
-	return (
-		<Controller
-			control={control}
-			name={name}
-			render={({ field, fieldState: { error } }) => (
-				<FormControl {...field} error={!!error}>
-					<FormLabel>{label}</FormLabel>
-					<RadioGroup>
-						{options?.map((option) => (
-							<FormControlLabel
-								value={option.id}
-								control={<Radio checked={field.value === option.id} />}
-								label={option.label}
-								key={option.id}
-							/>
-						))}
-					</RadioGroup>
-				</FormControl>
-			)}
-		></Controller>
-	);
+  return (
+    <Controller
+      control={control}
+      name={name}
+      render={({ field, fieldState: { error } }) => (
+        <FormControl {...field} error={!!error}>
+          <FormLabel>{label}</FormLabel>
+          <RadioGroup>
+            {options?.map((option) => (
+              <FormControlLabel
+                value={option.id}
+                control={<Radio checked={field.value === option.id} />}
+                label={option.label}
+                key={option.id}
+              />
+            ))}
+          </RadioGroup>
+        </FormControl>
+      )}
+    ></Controller>
+  );
 }

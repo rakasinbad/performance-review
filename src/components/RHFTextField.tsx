@@ -4,6 +4,7 @@ import { TextField, TextFieldProps } from "@mui/material";
 
 type Props<T extends FieldValues> = TextFieldProps & {
   name: Path<T>;
+  [key: string]: any;
 };
 
 export function RHFTextField<T extends FieldValues>({

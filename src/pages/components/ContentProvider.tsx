@@ -4,7 +4,6 @@ import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { defaultValues, Schema, schema } from "../types/schema";
-import { Users } from "./Users";
 import { useState } from "react";
 import MultiStepForm from "./MultiStepForm";
 import { SchemaReview } from "../types/reviewSchema";
@@ -16,7 +15,7 @@ const steps = [
   "Step 4: Penutup",
 ];
 
-export function UsersProvider() {
+export function ContentProvider() {
   const methods = useForm<SchemaReview>({
     mode: "onChange",
     resolver: zodResolver(schema),

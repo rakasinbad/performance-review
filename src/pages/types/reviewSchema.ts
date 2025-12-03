@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { boolean } from "zod/v4";
 
 export const schemaReview = z.intersection(
   z.object({
@@ -9,6 +8,7 @@ export const schemaReview = z.intersection(
       dept: z.string().min(1, "Dept is required"),
       namaTarget: z.string().min(1, "Nama Target is required"),
       deptTarget: z.string().min(1, "Dept Target is required"),
+      position: z.string().min(1, "Position is required"),
     }),
     uiState: z.object({
       deptShrink: z.boolean(),
@@ -32,6 +32,7 @@ export const defaultValuesReview: SchemaReview = {
     dept: "",
     namaTarget: "",
     deptTarget: "",
+    position: "",
   },
 
   uiState: {
