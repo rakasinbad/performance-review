@@ -159,6 +159,7 @@ const Step1 = ({}) => {
       setEmployeeId(selectedUser?.data?.id);
     } else {
       setValue("step1.dept", "");
+      setValue("step1.subDept", "");
     }
   }, [nama]);
 
@@ -175,6 +176,7 @@ const Step1 = ({}) => {
       setValue("step1.deptTarget", dept);
     } else {
       setValue("step1.deptTarget", "");
+      setValue("step1.subDeptTarget", "");
     }
   }, [namaTarget]);
 
@@ -195,7 +197,7 @@ const Step1 = ({}) => {
       });
     }
   }, [position, jabatanLevel, employeeId]);
-  console.log("jabatanLeve", jabatanLevel);
+
   return (
     <Box>
       <Typography variant="body1" paragraph>

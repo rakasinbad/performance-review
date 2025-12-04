@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
   Stepper,
@@ -12,9 +12,9 @@ import Step1 from "./Form/Step1";
 import logo from "../../../public/logo-dapcok-new.png";
 import { useFormContext, useWatch } from "react-hook-form";
 import { posisiPenilaiCode } from "./Form/constant";
+import Step2 from "./Form/Step2";
 
 const MultiStepForm = ({
-  steps,
   activeStep,
   handleNext,
   handleBack,
@@ -28,6 +28,18 @@ const MultiStepForm = ({
     control,
     name: "step1",
   });
+
+  const steps = useMemo(() => {
+    if (step1?.position === posisiPenilaiCode?.SUBORDINATE) {
+      return [
+        "Step 1: Identitas",
+        "Step 2: Pertanyaan Umum",
+        "Step 3: Pertanyaan Spesifik",
+        "Step 4: Penutup",
+      ];
+    }
+    return ["Step 1: Identitas", "Step 2: Pertanyaan Umum", "Step 3: Penutup"];
+  }, [step1]);
 
   const nextDisabled = useMemo(() => {
     switch (activeStep) {
@@ -52,6 +64,7 @@ const MultiStepForm = ({
         flexDirection: "column",
         pt: 5,
         backgroundColor: "#F0EDED",
+        minHeight: "100vh",
       }}
     >
       <Box
@@ -144,7 +157,7 @@ const MultiStepForm = ({
           ) : (
             <>
               {activeStep === 0 && <Step1 />}
-
+              {activeStep === 1 && <Step2 />}
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Button
                   color="inherit"

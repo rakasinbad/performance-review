@@ -8,13 +8,6 @@ import { useState } from "react";
 import MultiStepForm from "./MultiStepForm";
 import { SchemaReview } from "../types/reviewSchema";
 
-const steps = [
-  "Step 1: Identitas",
-  "Step 2: Pertanyaan Umum",
-  "Step 3: Pertanyaan Spesifik",
-  "Step 4: Penutup",
-];
-
 export function ContentProvider() {
   const methods = useForm<SchemaReview>({
     mode: "onChange",
@@ -63,8 +56,7 @@ export function ContentProvider() {
   return (
     <FormProvider {...methods}>
       <MultiStepForm
-        steps={steps}
-        activeStep={activeStep}
+        activeStep={1}
         handleNext={handleNext}
         handleBack={handleBack}
         handleReset={handleReset}
