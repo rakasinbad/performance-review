@@ -12,7 +12,8 @@ import Step1 from "./Form/Step1";
 import logo from "../../../public/logo-dapcok-new.png";
 import { useFormContext, useWatch } from "react-hook-form";
 import { posisiPenilaiCode } from "./Form/constant";
-import Step2 from "./Form/Step2";
+import Step2 from "./Form/StepQuestion";
+import StepQuestion from "./Form/StepQuestion";
 
 const MultiStepForm = ({
   activeStep,
@@ -157,7 +158,9 @@ const MultiStepForm = ({
           ) : (
             <>
               {activeStep === 0 && <Step1 />}
-              {activeStep === 1 && <Step2 />}
+              {(activeStep === 1 || activeStep === 2) && (
+                <StepQuestion activeStep={activeStep} />
+              )}
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Button
                   color="inherit"

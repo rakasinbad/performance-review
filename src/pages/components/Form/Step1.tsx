@@ -138,11 +138,15 @@ const Step1 = ({}) => {
     if (nama) {
       const selectedUser = employees?.find((emp: any) => emp?.id === nama);
 
+      let deptSubDept = `${selectedUser?.data?.dept}`;
       let dept = `${selectedUser?.data?.dept}`;
+      let subDept = `${selectedUser?.data?.subdept}`;
       if (selectedUser?.data?.subdept && selectedUser?.data?.subdept !== "") {
-        dept += ` - ${selectedUser?.data?.subdept}`;
+        deptSubDept += ` - ${selectedUser?.data?.subdept}`;
       }
+      setValue("step1.deptSubDept", deptSubDept);
       setValue("step1.dept", dept);
+      setValue("step1.subDept", subDept);
 
       const jabatan = selectedUser?.data?.jabatan;
       if (["STAFF"]?.includes(jabatan)) {
@@ -159,6 +163,7 @@ const Step1 = ({}) => {
       setEmployeeId(selectedUser?.data?.id);
     } else {
       setValue("step1.dept", "");
+      setValue("step1.deptSubDept", "");
       setValue("step1.subDept", "");
     }
   }, [nama]);
@@ -169,14 +174,22 @@ const Step1 = ({}) => {
       const selectedUser = employees?.find(
         (emp: any) => emp?.id === namaTarget
       );
+      let deptSubDept = `${selectedUser?.data?.dept}`;
       let dept = `${selectedUser?.data?.dept}`;
+      let subDept = `${selectedUser?.data?.subdept}`;
+      let jabatan = `${selectedUser?.data?.jabatan}`;
       if (selectedUser?.data?.subdept && selectedUser?.data?.subdept !== "") {
-        dept += ` - ${selectedUser?.data?.subdept}`;
+        deptSubDept += ` - ${selectedUser?.data?.subdept}`;
       }
       setValue("step1.deptTarget", dept);
+      setValue("step1.deptSubDeptTarget", deptSubDept);
+      setValue("step1.subDeptTarget", subDept);
+      setValue("step1.jabatanTarget", jabatan);
     } else {
       setValue("step1.deptTarget", "");
+      setValue("step1.deptSubDeptTarget", "");
       setValue("step1.subDeptTarget", "");
+      setValue("step1.jabatanTarget", "");
     }
   }, [namaTarget]);
 
@@ -249,7 +262,7 @@ const Step1 = ({}) => {
 
       <FormControl fullWidth sx={{ mb: 4 }}>
         <RHFTextField<SchemaReview>
-          name="step1.dept"
+          name="step1.deptSubDept"
           label="Department"
           InputLabelProps={{
             shrink: uiState?.deptShrink,
@@ -288,7 +301,7 @@ const Step1 = ({}) => {
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <RHFTextField<SchemaReview>
-              name="step1.deptTarget"
+              name="step1.deptSubDeptTarget"
               label="Department"
               disabled
               InputLabelProps={{

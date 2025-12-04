@@ -56,7 +56,7 @@ export function ContentProvider() {
   return (
     <FormProvider {...methods}>
       <MultiStepForm
-        activeStep={1}
+        activeStep={activeStep}
         handleNext={handleNext}
         handleBack={handleBack}
         handleReset={handleReset}
