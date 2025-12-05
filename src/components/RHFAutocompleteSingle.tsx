@@ -14,7 +14,7 @@ type Props<T extends FieldValues> = {
   options?: Option[];
   label: string;
   loading?: boolean;
-  inputCustomProps?: AutocompleteSingleProps;
+  inputCustomProps?: any;
   customOnChange?: (value: Option | null) => void;
   [key: string]: any;
 };

@@ -1,21 +1,30 @@
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { useQuery } from "@apollo/client";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import RHFRating from "../../../components/RHFRating";
 import { QUESTION_GQL, QUESTION_GROUP_GQL } from "../../../gql/question.gql";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { RHFTextField } from "../../../components/RHFTextField";
+import Loading from "../../../components/Loading";
 
 const StepQuestion = ({ activeStep }: any) => {
-  const { control, setValue } = useFormContext();
-  const { fields } = useFieldArray({
-    control,
-    name: "ratings",
-  });
-  console.log("fields", fields);
+  const { control, setValue, register } = useFormContext();
 
   const step1 = useWatch({
     control,
     name: "step1",
+  });
+
+  const ratingType = useMemo(() => {
+    if (activeStep === 2) {
+      return "SPECIFIC";
+    }
+    return "GENERAL";
+  }, [activeStep]);
+
+  useFieldArray({
+    control,
+    name: `ratings.${ratingType}`,
   });
 
   const getJabatan = useMemo(() => {
@@ -62,7 +71,6 @@ const StepQuestion = ({ activeStep }: any) => {
     return [];
   }, [data]);
 
-  console.log("Data question", questions);
   const {
     data: responseQg,
     error: errorQg,
@@ -83,39 +91,65 @@ const StepQuestion = ({ activeStep }: any) => {
     return null;
   }, [responseQg]);
 
-  console.log("Data question group", questionGroup);
-
   return (
     <Box sx={{}}>
-      <Box
-        sx={{
-          fontSize: "15px",
-          lineHeight: 1.7,
-          "& table": {
-            width: "100%",
-            borderCollapse: "collapse",
-            mt: 1,
-          },
-          "& th, & td": {
-            border: "1px solid #ccc",
-            padding: "8px",
-          },
-          "& th": {
-            backgroundColor: "#f5f5f5",
-          },
-          mb: 4,
-        }}
-        dangerouslySetInnerHTML={{ __html: questionGroup?.instruction }}
-      />
-      {questions?.data?.map((q: any, index: any) => (
-        <Box key={q.id} sx={{ mb: 4 }}>
-          <RHFRating
-            required
-            name={`ratings.${index}.rating`} // <— Nested array form
-            label={`${index + 1}. ${q.text}`}
-          />
-        </Box>
-      ))}
+      {loadingQg ? (
+        <Loading />
+      ) : (
+        <Box
+          sx={{
+            fontSize: "15px",
+            lineHeight: 1.7,
+            "& table": {
+              width: "100%",
+              borderCollapse: "collapse",
+              mt: 1,
+            },
+            "& th, & td": {
+              border: "1px solid #ccc",
+              padding: "8px",
+            },
+            "& th": {
+              backgroundColor: "#f5f5f5",
+            },
+            mb: 4,
+          }}
+          dangerouslySetInnerHTML={{ __html: questionGroup?.instruction }}
+        />
+      )}
+      {loading ? (
+        <Loading />
+      ) : (
+        questions?.data?.map((q: any, index: any) =>
+          q?.type === "rating" ? (
+            <Box key={q.id} sx={{ mb: 4 }}>
+              <RHFRating
+                required
+                name={`step2.ratings.${ratingType}.${index}.rating`} // <— Nested array form
+                label={`${index + 1}. ${q.text}`}
+              />
+              <input
+                type="hidden"
+                value={q?.id}
+                {...register(`step2.ratings.${ratingType}.${index}.questionId`)}
+              />
+            </Box>
+          ) : (
+            <Box key={q.id} sx={{ mb: 4 }}>
+              <RHFTextField
+                required
+                name={`step2.ratings.${ratingType}.${index}.rating`} // <— Nested array form
+                label={`${index + 1}. ${q.text}`}
+              />
+              <input
+                type="hidden"
+                value={q?.id}
+                {...register(`step2.ratings.${ratingType}.${index}.questionId`)}
+              />
+            </Box>
+          )
+        )
+      )}
     </Box>
   );
 };

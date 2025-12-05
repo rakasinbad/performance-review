@@ -1,4 +1,4 @@
-import { useForm, Controller, Path, FieldValues } from "react-hook-form";
+import { Controller, Path, FieldValues, useFormContext } from "react-hook-form";
 import { Typography, Rating, Box, styled } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 
@@ -62,7 +62,7 @@ export default function RHFRating<T extends FieldValues>({
   label,
   required,
 }: Props<T>) {
-  const { control } = useForm();
+  const { control } = useFormContext();
 
   return (
     <Controller
@@ -73,7 +73,7 @@ export default function RHFRating<T extends FieldValues>({
         <Box>
           {/* Label */}
           <Typography>
-            {label} <span style={{ color: "red" }}>*</span>
+            {label} {required && <span style={{ color: "red" }}>*</span>}
           </Typography>
           <Box
             sx={{
@@ -85,6 +85,7 @@ export default function RHFRating<T extends FieldValues>({
             }}
           >
             <Rating
+              {...field}
               name="labeled-rating-large"
               value={field.value || 0}
               precision={1}

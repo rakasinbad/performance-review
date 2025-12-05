@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Box,
   Stepper,
@@ -7,14 +7,17 @@ import {
   Typography,
   Button,
   Paper,
+  CircularProgress,
 } from "@mui/material";
 import Step1 from "./Form/Step1";
 import logo from "../../../public/logo-dapcok-new.png";
 import { useFormContext, useWatch } from "react-hook-form";
 import { posisiPenilaiCode } from "./Form/constant";
-import Step2 from "./Form/StepQuestion";
 import StepQuestion from "./Form/StepQuestion";
 import StepClosing from "./Form/StepClosing";
+import { CREATE_RESPONSE_GQL } from "../../gql/question.gql";
+import { useMutation } from "@apollo/client";
+import { useToast } from "../../components/toast/ToastContext";
 
 const MultiStepForm = ({
   activeStep,
@@ -25,11 +28,24 @@ const MultiStepForm = ({
   isStepSkipped,
   handleSkip,
 }: any) => {
+  const { showToast } = useToast();
   const { control } = useFormContext();
   const step1 = useWatch({
     control,
     name: "step1",
   });
+  const step2 = useWatch({
+    control,
+    name: "step2",
+  });
+  const [
+    createResponse,
+    {
+      data: responseCreateResponse,
+      loading: loadingCreateResponse,
+      error: erroeCreateResponse,
+    },
+  ] = useMutation<any>(CREATE_RESPONSE_GQL);
 
   const steps = useMemo(() => {
     if (step1?.position === posisiPenilaiCode?.SUBORDINATE) {
@@ -47,15 +63,74 @@ const MultiStepForm = ({
     switch (activeStep) {
       case 0:
         if (step1?.position && step1?.position !== posisiPenilaiCode.SELF) {
-          return !step1?.goals || !step1?.nama || !step1?.namaTarget;
+          return (
+            !step1?.goals || !step1?.karyawanId || !step1?.targetKaryawanId
+          );
         } else {
-          return !step1?.goals || !step1?.nama || !step1?.position;
+          return !step1?.goals || !step1?.karyawanId || !step1?.position;
         }
-
+      case 1:
+        return (
+          step2?.ratings?.["GENERAL"]?.some((item: any) => !item.rating) ||
+          !step2?.ratings?.["GENERAL"]
+        );
+      case 2:
+        if (step2?.ratings?.["SPECIFIC"]) {
+          return step2?.ratings?.["SPECIFIC"]?.some(
+            (item: any) => !item.rating
+          );
+        }
+        return false;
       default:
         return false;
     }
   }, [step1]);
+
+  const onHandleNext = useCallback(async () => {
+    if (activeStep === steps.length - 1) {
+      const responseQuestion: any = [];
+      step2?.ratings?.GENERAL?.forEach((r: any) => {
+        responseQuestion?.push({
+          questionId: parseInt(r?.questionId),
+          text: r?.rating?.toString(),
+        });
+      });
+      if (step2?.ratings?.SPECIFIC) {
+        step2?.ratings?.SPECIFIC?.forEach((r: any) => {
+          responseQuestion?.push({
+            questionId: parseInt(r?.questionId),
+            text: r?.rating?.toString(),
+          });
+        });
+      }
+      const variables = {
+        input: {
+          goals: step1?.goals,
+          targetPosition: step1?.position,
+          karyawanId: step1?.karyawanId,
+          targetKaryawanId: step1?.targetKaryawanId,
+          status: "1",
+          responseQuestion,
+        },
+      };
+
+      try {
+        await createResponse({
+          variables,
+        });
+        showToast("Data berhasil dikirim", "success");
+        return handleNext();
+      } catch (error: any) {
+        console.error("Mutation error:", error);
+        showToast(
+          "Data gagal dikirim",
+          error?.["message"] || error?.data?.message
+        );
+      }
+      return handleNext();
+    }
+    return handleNext();
+  }, [step1, step2, activeStep, steps]);
 
   return (
     <Box
@@ -161,9 +236,10 @@ const MultiStepForm = ({
               {activeStep === 0 && <Step1 />}
               {activeStep === 1 || (activeStep === 2 && steps?.length === 4) ? (
                 <StepQuestion activeStep={activeStep} />
-              ) : (
+              ) : (activeStep === 2 && steps?.length === 3) ||
+                (activeStep === 3 && steps?.length === 4) ? (
                 <StepClosing />
-              )}
+              ) : null}
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Button
                   color="inherit"
@@ -182,10 +258,16 @@ const MultiStepForm = ({
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleNext}
-                  disabled={nextDisabled}
+                  onClick={onHandleNext}
+                  disabled={nextDisabled || loadingCreateResponse}
                 >
-                  {activeStep === steps.length - 1 ? "Submit" : "Next"}
+                  {loadingCreateResponse ? (
+                    <CircularProgress />
+                  ) : activeStep === steps.length - 1 ? (
+                    "Submit"
+                  ) : (
+                    "Next"
+                  )}
                 </Button>
               </Box>
             </>

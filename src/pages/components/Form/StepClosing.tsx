@@ -1,14 +1,10 @@
 import { useQuery } from "@apollo/client";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { QUESTION_GROUP_GQL } from "../../../gql/question.gql";
 import { Box } from "@mui/material";
 
 function StepClosing() {
-  const {
-    data: responseQg,
-    error: errorQg,
-    loading: loadingQg,
-  } = useQuery<any>(QUESTION_GROUP_GQL, {
+  const { data: responseQg } = useQuery<any>(QUESTION_GROUP_GQL, {
     variables: {
       input: {
         section: "CLOSING",

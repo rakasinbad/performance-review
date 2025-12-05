@@ -54,16 +54,16 @@ const Step1 = ({}) => {
   const [employeeId, setEmployeeId] = useState<any>(null);
   const [queryParamsTargetUser, setQueryParamsTargetUser] = useState<any>({});
 
-  const { control, setValue } = useFormContext();
+  const { control, setValue, resetField } = useFormContext();
 
-  const nama = useWatch({
+  const karyawanId = useWatch({
     control,
-    name: "step1.nama",
+    name: "step1.karyawanId",
   });
 
-  const namaTarget = useWatch({
+  const targetKaryawanId = useWatch({
     control,
-    name: "step1.namaTarget",
+    name: "step1.targetKaryawanId",
   });
 
   const uiState = useWatch({
@@ -134,9 +134,11 @@ const Step1 = ({}) => {
   }, [responseEmpTarget]);
 
   useEffect(() => {
-    setValue("uiState.deptShrink", !!nama);
-    if (nama) {
-      const selectedUser = employees?.find((emp: any) => emp?.id === nama);
+    setValue("uiState.deptShrink", !!karyawanId);
+    if (karyawanId) {
+      const selectedUser = employees?.find(
+        (emp: any) => emp?.id === karyawanId
+      );
 
       let deptSubDept = `${selectedUser?.data?.dept}`;
       let dept = `${selectedUser?.data?.dept}`;
@@ -166,13 +168,13 @@ const Step1 = ({}) => {
       setValue("step1.deptSubDept", "");
       setValue("step1.subDept", "");
     }
-  }, [nama]);
+  }, [karyawanId]);
 
   useEffect(() => {
-    setValue("uiState.deptTargetShrink", !!namaTarget);
-    if (namaTarget) {
+    setValue("uiState.deptTargetShrink", !!targetKaryawanId);
+    if (targetKaryawanId) {
       const selectedUser = employees?.find(
-        (emp: any) => emp?.id === namaTarget
+        (emp: any) => emp?.id === targetKaryawanId
       );
       let deptSubDept = `${selectedUser?.data?.dept}`;
       let dept = `${selectedUser?.data?.dept}`;
@@ -191,7 +193,7 @@ const Step1 = ({}) => {
       setValue("step1.subDeptTarget", "");
       setValue("step1.jabatanTarget", "");
     }
-  }, [namaTarget]);
+  }, [targetKaryawanId]);
 
   useEffect(() => {
     if (position && position !== posisiPenilaiCode?.SELF) {
@@ -217,7 +219,6 @@ const Step1 = ({}) => {
         Sebagai bagian dari proses evaluasi karyawan, perusahaan melakukan
         penilaian kinerja dan sikap kerja untuk keperluan
         <b>
-          {" "}
           Perpanjangan Kontrak, Promosi, Demosi, maupun Pengangkatan karyawan
           tetap.
         </b>
@@ -252,11 +253,14 @@ const Step1 = ({}) => {
 
       <FormControl fullWidth sx={{ mb: 4 }}>
         <RHFAutocompleteSingle<SchemaReview>
-          name="step1.nama"
+          name="step1.karyawanId"
           label="Nama"
           options={employees}
           loading={loadingEmployees}
           required
+          // onInputChange={(e: any) =>
+          //   console.log("on change input", e.target.value)
+          // }
         />
       </FormControl>
 
@@ -283,7 +287,11 @@ const Step1 = ({}) => {
           label="Posisi Penilai"
           options={posisiPenilaiOptions}
           required
-          disabled={!nama}
+          disabled={!karyawanId}
+          customOnChange={() => {
+            setValue("step1.targetKaryawanId", "");
+            resetField("step2");
+          }}
         />
       </FormControl>
 
@@ -291,11 +299,14 @@ const Step1 = ({}) => {
         <>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <RHFAutocompleteSingle<SchemaReview>
-              name="step1.namaTarget"
+              name="step1.targetKaryawanId"
               label="Nama yang akan dinilai"
               options={targetEmployees}
               loading={loadingEmpTarget}
               required
+              customOnChange={() => {
+                resetField("step2");
+              }}
             />
           </FormControl>
 

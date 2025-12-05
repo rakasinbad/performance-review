@@ -7,6 +7,7 @@ export const QUESTION_GQL = gql`
         id
         text
         questionGroupId
+        type
       }
       meta {
         total
@@ -21,6 +22,14 @@ export const QUESTION_GROUP_GQL = gql`
     QuestionGroup(input: $input) {
       id
       instruction
+    }
+  }
+`;
+
+export const CREATE_RESPONSE_GQL = gql`
+  mutation Response($input: CreateResponse!) {
+    CreateResponse(input: $input) {
+      id
     }
   }
 `;

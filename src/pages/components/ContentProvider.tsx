@@ -48,8 +48,7 @@ export function ContentProvider() {
 
   const handleReset = () => {
     setActiveStep(0);
-    setTujuan("");
-    setName("");
+    methods?.reset();
     setSkipped(new Set());
   };
 
