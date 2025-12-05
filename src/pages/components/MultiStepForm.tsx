@@ -14,6 +14,7 @@ import { useFormContext, useWatch } from "react-hook-form";
 import { posisiPenilaiCode } from "./Form/constant";
 import Step2 from "./Form/StepQuestion";
 import StepQuestion from "./Form/StepQuestion";
+import StepClosing from "./Form/StepClosing";
 
 const MultiStepForm = ({
   activeStep,
@@ -149,7 +150,7 @@ const MultiStepForm = ({
           {activeStep === steps.length ? (
             <Box textAlign="center">
               <Typography sx={{ mt: 2, mb: 3 }} variant="h6">
-                All steps completed - you&apos;re finished!
+                Klik RESET untuk kembali ke halaman utama
               </Typography>
               <Button variant="contained" color="primary" onClick={handleReset}>
                 Reset
@@ -158,8 +159,10 @@ const MultiStepForm = ({
           ) : (
             <>
               {activeStep === 0 && <Step1 />}
-              {(activeStep === 1 || activeStep === 2) && (
+              {activeStep === 1 || (activeStep === 2 && steps?.length === 4) ? (
                 <StepQuestion activeStep={activeStep} />
+              ) : (
+                <StepClosing />
               )}
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Button
@@ -182,7 +185,7 @@ const MultiStepForm = ({
                   onClick={handleNext}
                   disabled={nextDisabled}
                 >
-                  {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                  {activeStep === steps.length - 1 ? "Submit" : "Next"}
                 </Button>
               </Box>
             </>

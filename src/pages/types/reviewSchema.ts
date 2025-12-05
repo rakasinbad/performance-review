@@ -14,6 +14,17 @@ export const schemaReview = z.intersection(
       subDeptTarget: z.string().min(1, "Sub Dept Target is required"),
       position: z.string().min(1, "Position is required"),
       jabatanTarget: z.string().min(1, "Jabatan Target is required"),
+      ratings: z
+        .array(
+          z.object({
+            questionId: z.string(),
+            rating: z
+              .number()
+              .min(1, "Rating is required") // if scoring 1–5
+              .max(5),
+          })
+        )
+        .min(1),
     }),
     uiState: z.object({
       deptShrink: z.boolean(),
@@ -43,6 +54,7 @@ export const defaultValuesReview: SchemaReview = {
     subDeptTarget: "",
     position: "",
     jabatanTarget: "",
+    ratings: [],
   },
 
   uiState: {
