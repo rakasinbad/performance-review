@@ -1,0 +1,95 @@
+from this 3 data summarize what data is missing and every different of data
+
+data1: 
+Accounting
+Distribution
+Finance
+GA Cleaner
+Driver
+GA General
+GA OB-Messenger
+GA Security
+GA Teknisi
+HRD Admin
+Opr Training
+IT
+Marketing (Digital Marketing)
+Marketing Design
+Operational Outlet
+Operational Admin
+Production Corner
+Customer Service
+Operational Admin Franchise
+Procurement
+Production Decoration
+R&D
+Sales & Strategy Offline
+Sales & Strategy Online
+Warehouse
+
+data2:
+Distribution
+Warehouse
+Production
+Operation
+Sales & Strategy Offline
+Sales & Strategy Online
+Procurement
+Design
+Marketing
+General Affair
+IT
+HRD
+Finance
+Accounting
+
+data3:
+Distribution
+Warehouse
+Production
+Operation
+Sales & Strategy Offline
+Sales & Strategy Online
+Procurement
+Design
+Marketing
+Accounting
+Finance
+HRD
+IT
+General Affair
+
+
+summary:
+• Accounting >
+• Finance >
+• HRD > 
+• IT > 
+• Marketing > 
+• Design >
+• Operation >
+• Distribution > 
+• Procurement > 
+• Production > 
+• Warehouse >
+• Sales & Strategy Offline >
+• Sales & Strategy Online >
+• GENERAL_AFFAIR >
+• General Affair (Parent)
+    - GA Cleaner >
+    - GA General >
+    - GA OB-Messenger >
+    - GA Security > 
+    - GA Teknisi >
+• Operation (Parent) 
+    - Operational Admin >
+    - Operational Outlet > 
+    - Operational Admin Franchise > 
+• Production (Parent)
+    - Production Corner >
+    - Production Decoration > 
+• Other Roles
+    - Customer Service >
+    - Opr Training >
+    - R&D > 
+    - Driver > 

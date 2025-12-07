@@ -6,47 +6,14 @@ import { EMPLOYEES_GQL } from "../../../gql/employees.gql";
 import { useQuery } from "@apollo/client";
 import { useEffect, useMemo, useState } from "react";
 import { RHFTextField } from "../../../components/RHFTextField";
-import { posisiPenilaiCode } from "./constant";
-
-const tujuanPenilaianOptions = [
-  {
-    id: "extension",
-    label: "Perpanjangan Kontrak Tahunan",
-  },
-  {
-    id: "promotion",
-    label: "Promosi",
-  },
-  {
-    id: "demotion",
-    label: "Demosi",
-  },
-  {
-    id: "appointment",
-    label: "Pengangkatan Karyawan Tetap",
-  },
-];
-
-const sebagaiAtasan = {
-  id: posisiPenilaiCode.SUBORDINATE,
-  label: "Sebagai Atasan",
-};
-
-const sebagaiRekan = {
-  id: posisiPenilaiCode.COLLEAGUE,
-  label: "Sebagai Rekan Kerja (Peer)",
-};
-
-const diriSendiri = {
-  id: posisiPenilaiCode.SELF,
-  level: null,
-  label: "Penilaian Diri Sendiri",
-};
-
-const sebagaiBawahan = {
-  id: posisiPenilaiCode.SUPERIOR,
-  label: "Sebagai Bawahan",
-};
+import {
+  diriSendiri,
+  posisiPenilaiCode,
+  sebagaiAtasan,
+  sebagaiBawahan,
+  sebagaiRekan,
+  tujuanPenilaianOptions,
+} from "./constant";
 
 const Step1 = ({}) => {
   const [posisiPenilaiOptions, setPosisiPenilaiOptions] = useState<any>([]);
@@ -200,7 +167,7 @@ const Step1 = ({}) => {
       setQueryParamsTargetUser((state: any) => {
         const jabatanLevelSearch = {
           [posisiPenilaiCode.SUBORDINATE]: "lte",
-          [posisiPenilaiCode.SUPERIOR]: "gte",
+          [posisiPenilaiCode.SUPERIOR]: "gt",
           [posisiPenilaiCode.COLLEAGUE]: "eq",
         };
         return {
@@ -219,6 +186,7 @@ const Step1 = ({}) => {
         Sebagai bagian dari proses evaluasi karyawan, perusahaan melakukan
         penilaian kinerja dan sikap kerja untuk keperluan
         <b>
+          {" "}
           Perpanjangan Kontrak, Promosi, Demosi, maupun Pengangkatan karyawan
           tetap.
         </b>
