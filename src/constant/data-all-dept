@@ -1,6 +1,6 @@
 from this 3 data summarize what data is missing and every different of data
 
-data1: 
+data1:
 Accounting
 Distribution
 Finance
@@ -59,37 +59,45 @@ HRD
 IT
 General Affair
 
-
 summary:
+DEPT: ACCOUNTING
 • Accounting >
+DEPT: FINANCE
 • Finance >
-• HRD > 
-• IT > 
-• Marketing > 
+DEPT: HRD
+• HRD >
+• Opr Training >
+DEPT: IT
+• IT >
+DEPT: MARKETING
+• Marketing >
 • Design >
+DEPT: OPERATION
 • Operation >
-• Distribution > 
-• Procurement > 
-• Production > 
+• Operational Admin >
+• Operational Outlet >
+• Operational Admin Franchise >
+• Customer Service >
+DEPT: DISTRIBUTION
+• Distribution >
+DEPT: PROCUREMENT
+• Procurement >
+DEPT: PRODUCTION
+• Production >
+• Production Corner >
+• Production Decoration >
+DEPT: PRODUCTION
 • Warehouse >
+DEPT: SALES & STRATEGY
 • Sales & Strategy Offline >
 • Sales & Strategy Online >
-• GENERAL_AFFAIR >
-• General Affair (Parent)
-    - GA Cleaner >
-    - GA General >
-    - GA OB-Messenger >
-    - GA Security > 
-    - GA Teknisi >
-• Operation (Parent) 
-    - Operational Admin >
-    - Operational Outlet > 
-    - Operational Admin Franchise > 
-• Production (Parent)
-    - Production Corner >
-    - Production Decoration > 
-• Other Roles
-    - Customer Service >
-    - Opr Training >
-    - R&D > 
-    - Driver > 
+DEPT: GENERAL_AFFAIR
+• GENERAL AFFAIR >
+• GA Cleaner >
+• GA General >
+• GA OB_Messenger >
+• GA Security >
+• GA Teknisi >
+• Driver >
+DEPT: R&D
+• R&D >
