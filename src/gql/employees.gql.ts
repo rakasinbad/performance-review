@@ -13,6 +13,7 @@ export const EMPLOYEES_GQL = gql`
         jabatanDetail {
           id
         }
+        deptdeclare
       }
       meta {
         total

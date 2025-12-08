@@ -37,11 +37,17 @@ const StepQuestion = ({ activeStep }: any) => {
   }, [step1]);
 
   const getDept = useMemo(() => {
+    console.log("step1?.deptDeclareTarget", step1?.deptDeclareTarget);
     let dept = step1?.dept;
     let subDept = step1?.subDept;
     if (step1?.position === "SUBORDINATE") {
       dept = step1?.deptTarget;
-      subDept = step1?.subDeptTarget;
+
+      if (step1?.deptDeclareTarget && step1?.deptDeclareTarget === "OUTLET") {
+        subDept = "OUTLET";
+      } else {
+        subDept = step1?.subDeptTarget;
+      }
     }
 
     return {

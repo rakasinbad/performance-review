@@ -147,6 +147,8 @@ const Step1 = ({}) => {
       let dept = `${selectedUser?.data?.dept}`;
       let subDept = `${selectedUser?.data?.subdept}`;
       let jabatan = `${selectedUser?.data?.jabatan}`;
+      let deptDeclare = `${selectedUser?.data?.deptdeclare}`;
+      console.log("selected", selectedUser);
       if (selectedUser?.data?.subdept && selectedUser?.data?.subdept !== "") {
         deptSubDept += ` - ${selectedUser?.data?.subdept}`;
       }
@@ -154,11 +156,13 @@ const Step1 = ({}) => {
       setValue("step1.deptSubDeptTarget", deptSubDept);
       setValue("step1.subDeptTarget", subDept);
       setValue("step1.jabatanTarget", jabatan);
+      setValue("step1.deptDeclareTarget", deptDeclare);
     } else {
       setValue("step1.deptTarget", "");
       setValue("step1.deptSubDeptTarget", "");
       setValue("step1.subDeptTarget", "");
       setValue("step1.jabatanTarget", "");
+      setValue("step1.deptDeclareTarget", "");
     }
   }, [targetKaryawanId]);
 
